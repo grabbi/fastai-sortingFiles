@@ -19,6 +19,9 @@ if os.path.exists(path):
 
     if not os.path.exists('../dogbreed/valid'):
         os.makedirs('../dogbreed/valid')
+    
+    if not os.path.exists('../dogbreed/test/unknown'):
+        os.makedirs('../dogbreed/unknown')
 
     for f in os.listdir(path):
         breed = df[df["id"] == str.split(f, '.')[0]]["breed"].values[0]
@@ -32,14 +35,14 @@ if os.path.exists(path):
             os.makedirs('../dogbreed/sample/train/' + f)
         samples = random.sample(os.listdir(path + f), shuffleSampleTrainN)
         for s in samples:
-            shutil.move(path + f + '/' + s , '../dogbreed/sample/train/' + f + '/' + s)
+            shutil.copy(path + f + '/' + s , '../dogbreed/sample/train/' + f + '/' + s)
 
     for f in os.listdir(path):
         if not os.path.exists('../dogbreed/sample/valid/' + f):
             os.makedirs('../dogbreed/sample/valid/' + f)
         samples = random.sample(os.listdir(path + f), shuffleSampleValidN)
         for s in samples:
-            shutil.move(path + f + '/' + s , '../dogbreed/sample/valid/' + f + '/' + s)
+            shutil.copy(path + f + '/' + s , '../dogbreed/sample/valid/' + f + '/' + s)
 
     for f in os.listdir(path):
         if not os.path.exists('../dogbreed/valid/' + f):
@@ -48,10 +51,11 @@ if os.path.exists(path):
         for s in samples:
             shutil.move(path + f + '/' + s , '../dogbreed/valid/' + f + '/' + s)
     
-    if not os.path.exists('../dogbreed/test/unknown'):
-        os.makedirs('../dogbreed/test/unknown')
+    for f in os.listdir(testPath):
+        shutil.move(testPath + f , '../dogbreed/unknown/' + f)
+    
+    shutil.move('../dogbreed/unknown', '../dogbreed/test/')
 
-    os.system("find ../dogbreed/test/ -type f -print0 | xargs -0 mv -t ../dogbreed/test/unknown")
     print("Finished sorting!")
 
 else:

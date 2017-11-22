@@ -27,6 +27,9 @@ if os.path.exists('../kaggle/train'):
     if not os.path.exists(path + 'dog'):
         os.makedirs(path + 'dog')
 
+    if not os.path.exists('../kaggle/test/unknown'):
+        os.makedirs('../kaggle/unknown')
+
     for filename in os.listdir(path):
         if os.path.isfile(path + filename):
             if filename[:3] == 'cat':
@@ -34,21 +37,19 @@ if os.path.exists('../kaggle/train'):
             else:
                 shutil.move(path + filename , path + 'dog/' + filename)
     
-    print("Finished sorting!")
-
     sampleCats = random.sample(os.listdir(path + 'cat/'), shuffleSampleTrainN)
     sampleDogs = random.sample(os.listdir(path + 'dog/'), shuffleSampleTrainN)
 
     for cat, dog in zip(sampleCats, sampleDogs):
-        shutil.move(path + 'cat/' + cat, '../kaggle/sample/train/cat/' + cat)
-        shutil.move(path + 'dog/' + dog, '../kaggle/sample/train/dog/' + dog)
+        shutil.copy(path + 'cat/' + cat, '../kaggle/sample/train/cat/' + cat)
+        shutil.copy(path + 'dog/' + dog, '../kaggle/sample/train/dog/' + dog)
 
     sampleCats = random.sample(os.listdir(path + 'cat/'), shuffleSampleValidN)
     sampleDogs = random.sample(os.listdir(path + 'dog/'), shuffleSampleValidN)
 
     for cat, dog in zip(sampleCats, sampleDogs):
-        shutil.move(path + 'cat/' + cat, '../kaggle/sample/valid/cat/' + cat)
-        shutil.move(path + 'dog/' + dog, '../kaggle/sample/valid/dog/' + dog)
+        shutil.copy(path + 'cat/' + cat, '../kaggle/sample/valid/cat/' + cat)
+        shutil.copy(path + 'dog/' + dog, '../kaggle/sample/valid/dog/' + dog)
 
     sampleCats = random.sample(os.listdir(path + 'cat/'), shuffleValidN)
     sampleDogs = random.sample(os.listdir(path + 'dog/'), shuffleValidN)
@@ -57,6 +58,10 @@ if os.path.exists('../kaggle/train'):
         shutil.move(path + 'cat/' + cat, '../kaggle/valid/cat/' + cat)
         shutil.move(path + 'dog/' + dog, '../kaggle/valid/dog/' + dog)
 
-    print("Finished!")
+    
+    shutil.move('../kaggle/unknown', '../kaggle/test/')
+
+    print("Finished sorting!")
+    
 else:
     print('Provide training data!')
