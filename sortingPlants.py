@@ -21,7 +21,7 @@ if os.path.exists(trainPath):
 
     for f in os.listdir(trainPath):
         if not os.path.exists('../' + path + '/sample/train/' + f):
-            os.makedirs('../' + path + 'sample/train/' + f)
+            os.makedirs('../' + path + '/sample/train/' + f)
         samples = random.sample(os.listdir(trainPath + f), shuffleSampleTrainN)
         for s in samples:
             shutil.copy(trainPath + f + '/' + s , '../' + path + '/sample/train/' + f + '/' + s)
